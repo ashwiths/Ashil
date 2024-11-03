@@ -1,0 +1,49 @@
+import React from 'react';
+
+// Higher-Order Function
+const withProductList = (WrappedComponent) => {
+  return function EnhancedComponent({ products }) {
+    return (
+      <div>
+        <h1>Product List</h1>
+        <WrappedComponent products={products} />
+      </div>
+    );
+  };
+};
+
+// Product List Component
+const ProductList = ({ products }) => {
+  return (
+    <ul>
+      {products.map((product, index) => (
+        <li key={index} style={{ marginBottom: '20px', listStyleType: 'none' }}>
+          <img src={product.imageUrl} alt={product.name} style={{ width: '100px', height: '100px', marginRight: '10px' }} />
+          <strong>{product.name}</strong><br />
+          <span>Price: ${product.price.toFixed(2)}</span>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+// Main Application Component
+const App = () => {
+  // Sample Product Data
+  const products = [
+    { name: 'Laptop', price: 999.99, imageUrl: 'https://via.placeholder.com/100' },
+    { name: 'Phone', price: 499.99, imageUrl: 'https://via.placeholder.com/100' },
+    { name: 'Tablet', price: 299.99, imageUrl: 'https://via.placeholder.com/100' },
+  ];
+
+  // Create an enhanced ProductList component
+  const EnhancedProductList = withProductList(ProductList);
+
+  return (
+    <div className="App">
+      <EnhancedProductList products={products} />
+    </div>
+  );
+};
+
+export default App;
